@@ -4,9 +4,8 @@ import { useEffect, useState } from "react";
 import { scrollToSection } from "./site";
 
 const LINKS = [
-  { label: "Video", target: "hero" },
-  { label: "Beneficios", target: "modelo" },
-  { label: "Galería", target: "hero" },
+  { label: "Beneficios", target: "beneficios" },
+  { label: "Galería", target: "galeria" },
   { label: "Distribución", target: "distribucion" },
   { label: "Financiamiento", target: "financiamiento" },
 ];

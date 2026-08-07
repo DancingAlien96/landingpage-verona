@@ -152,6 +152,75 @@ export const ArrowDownIcon = (props: IconProps) => (
   </svg>
 );
 
+export const KeyIcon = (props: IconProps) => (
+  <svg {...base(props)}>
+    <circle cx="8" cy="15" r="4.5" />
+    <path d="M11.2 11.8 20 3M15.5 7.5l3 3M12.8 10.2l2.4 2.4" />
+  </svg>
+);
+
+export const PercentIcon = (props: IconProps) => (
+  <svg {...base(props)}>
+    <path d="M19 5 5 19" />
+    <circle cx="7" cy="7" r="2.6" />
+    <circle cx="17" cy="17" r="2.6" />
+  </svg>
+);
+
+export const TrendUpIcon = (props: IconProps) => (
+  <svg {...base(props)}>
+    <path d="M3 17l6-6 4 4 8-8" />
+    <path d="M15 7h6v6" />
+  </svg>
+);
+
+export const ShieldIcon = (props: IconProps) => (
+  <svg {...base(props)}>
+    <path d="M12 3 5 6v5c0 4.5 3 8.4 7 10 4-1.6 7-5.5 7-10V6l-7-3Z" />
+    <path d="m9 12 2 2 4-4" />
+  </svg>
+);
+
+export const BuildingIcon = (props: IconProps) => (
+  <svg {...base(props)}>
+    <path d="M4 21V5a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v16" />
+    <path d="M16 9h3a1 1 0 0 1 1 1v11" />
+    <path d="M2 21h20" />
+    <path d="M8 7h4M8 11h4M8 15h4" />
+  </svg>
+);
+
+export const ClockIcon = (props: IconProps) => (
+  <svg {...base(props)}>
+    <circle cx="12" cy="12" r="9" />
+    <path d="M12 7v5l3 3" />
+  </svg>
+);
+
+export const ExpandIcon = (props: IconProps) => (
+  <svg {...base(props)}>
+    <path d="M8 3H3v5M16 3h5v5M8 21H3v-5M16 21h5v-5" />
+  </svg>
+);
+
+export const ChevronLeftIcon = (props: IconProps) => (
+  <svg {...base(props)}>
+    <path d="m15 5-7 7 7 7" />
+  </svg>
+);
+
+export const ChevronRightIcon = (props: IconProps) => (
+  <svg {...base(props)}>
+    <path d="m9 5 7 7-7 7" />
+  </svg>
+);
+
+export const CloseIcon = (props: IconProps) => (
+  <svg {...base(props)}>
+    <path d="M5 5l14 14M19 5 5 19" />
+  </svg>
+);
+
 export const FileIcon = (props: IconProps) => (
   <svg {...base(props)}>
     <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8Z" />

@@ -3,9 +3,9 @@ import { WHATSAPP_LINK } from "./site";
 
 const NAV = [
   { label: "Inicio", href: "#hero" },
-  { label: "Video", href: "#hero" },
-  { label: "Beneficios", href: "#modelo" },
-  { label: "Galería", href: "#hero" },
+  { label: "Beneficios", href: "#beneficios" },
+  { label: "Galería", href: "#galeria" },
+  { label: "Distribución", href: "#distribucion" },
   { label: "Financiamiento", href: "#financiamiento" },
 ];
 

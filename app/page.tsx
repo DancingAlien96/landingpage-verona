@@ -1,4 +1,6 @@
+import Beneficios from "@/components/Beneficios";
 import Distribucion from "@/components/Distribucion";
+import Galeria from "@/components/Galeria";
 import Financiamiento from "@/components/Financiamiento";
 import Footer from "@/components/Footer";
 import Hero from "@/components/Hero";
@@ -15,6 +17,8 @@ export default function Home() {
       <main>
         <Hero />
         <Modelo />
+        <Beneficios />
+        <Galeria />
         <Distribucion />
         <Financiamiento />
         <Newsletter />
