@@ -83,7 +83,7 @@ export default function Financiamiento() {
             <span className="text-xs font-semibold uppercase tracking-[0.25em] text-ink-600">
               Valor total de la vivienda
             </span>
-            <div className="mt-3 font-sans text-6xl font-bold tracking-tight text-ink-950 md:text-7xl">
+            <div className="mt-3 font-sans text-5xl font-bold tracking-tight text-ink-950 sm:text-6xl md:text-7xl">
               Q<CountUp end={650000} />
             </div>
 
@@ -91,7 +91,7 @@ export default function Financiamiento() {
               <span className="text-xs font-semibold uppercase tracking-[0.25em] text-ink-600">
                 Enganche inicial
               </span>
-              <div className="mt-2 flex items-baseline gap-4">
+              <div className="mt-2 flex flex-wrap items-baseline gap-x-4 gap-y-1">
                 <span className="font-sans text-4xl font-bold text-gold-500">
                   <CountUp end={5} format={(n) => `${Math.round(n)}%`} />
                 </span>
@@ -107,12 +107,12 @@ export default function Financiamiento() {
 
             <div className="mt-10 grid grid-cols-2 gap-4">
               {STATS.map((s) => (
-                <div key={s.label} className="bg-lav-50 p-6">
+                <div key={s.label} className="min-w-0 bg-lav-50 p-4 sm:p-6">
                   <span className="text-[11px] font-semibold uppercase tracking-[0.2em] text-ink-600">
                     {s.label}
                   </span>
-                  <div className="mt-2 flex items-baseline gap-2">
-                    <span className="font-sans text-3xl font-bold text-ink-950">
+                  <div className="mt-2 flex flex-wrap items-baseline gap-x-2 gap-y-1">
+                    <span className="font-sans text-2xl font-bold text-ink-950 sm:text-3xl">
                       {s.big}
                     </span>
                     <span className="text-sm text-ink-600">{s.small}</span>
@@ -128,7 +128,7 @@ export default function Financiamiento() {
               Comparativa de plazos
             </span>
 
-            <div className="mt-6 flex h-40 items-end gap-4">
+            <div className="mt-6 flex h-40 gap-4">
               {PLAZOS.map((p, i) => {
                 const value = parseCuota(cuotas[i]);
                 const h = value > 0 ? Math.max((value / maxCuota) * 100, 8) : 8;
@@ -137,12 +137,14 @@ export default function Financiamiento() {
                     key={p.years}
                     className="flex flex-1 flex-col items-center gap-2"
                   >
-                    <div
-                      className={`w-full transition-all duration-700 ${
-                        p.destacado ? "bg-gold-500" : "bg-gold-200"
-                      }`}
-                      style={{ height: `${h}%` }}
-                    />
+                    <div className="flex w-full flex-1 items-end">
+                      <div
+                        className={`w-full transition-all duration-700 ${
+                          p.destacado ? "bg-gold-500" : "bg-gold-200"
+                        }`}
+                        style={{ height: `${h}%` }}
+                      />
+                    </div>
                     <span className="text-xs font-medium uppercase tracking-wider text-ink-600">
                       {p.years} años
                     </span>
@@ -163,25 +165,25 @@ export default function Financiamiento() {
                 {PLAZOS.map((p, i) => (
                   <div
                     key={p.years}
-                    className={`flex items-center justify-between gap-4 border p-5 ${
+                    className={`flex flex-wrap items-center justify-between gap-4 border p-4 sm:p-5 ${
                       p.destacado
                         ? "border-gold-300 bg-cream-100"
                         : "border-ink-200/50 bg-white"
                     }`}
                   >
-                    <div className="flex items-center gap-4">
+                    <div className="flex min-w-0 items-center gap-4">
                       <span
-                        className={`h-10 w-1 ${
+                        className={`h-10 w-1 shrink-0 ${
                           p.destacado ? "bg-gold-500" : "bg-gold-300"
                         }`}
                       />
-                      <div>
-                        <div className="flex items-center gap-3">
-                          <span className="text-lg font-bold text-ink-950">
+                      <div className="min-w-0">
+                        <div className="flex flex-wrap items-center gap-x-3 gap-y-1">
+                          <span className="whitespace-nowrap text-lg font-bold text-ink-950">
                             {p.years} años
                           </span>
                           {p.destacado && (
-                            <span className="rounded-full bg-gold-500 px-3 py-1 text-[10px] font-semibold uppercase tracking-[0.15em] text-white">
+                            <span className="whitespace-nowrap rounded-full bg-gold-500 px-3 py-1 text-[10px] font-semibold uppercase tracking-[0.15em] text-white">
                               Más accesible
                             </span>
                           )}
@@ -191,7 +193,7 @@ export default function Financiamiento() {
                         </span>
                       </div>
                     </div>
-                    <div className="flex items-baseline gap-2">
+                    <div className="ml-auto flex items-baseline gap-2">
                       <span className="text-sm text-ink-600">Q</span>
                       <input
                         value={cuotas[i]}
@@ -202,7 +204,7 @@ export default function Financiamiento() {
                         }
                         placeholder="0.00"
                         inputMode="decimal"
-                        className="w-28 border-b border-gold-300 bg-transparent py-1 text-right text-lg font-bold text-ink-950 outline-none focus:border-gold-500"
+                        className="w-24 border-b border-gold-300 bg-transparent py-1 text-right text-lg font-bold text-ink-950 outline-none focus:border-gold-500 sm:w-28"
                       />
                       <span className="text-xs text-ink-600">/mes</span>
                     </div>

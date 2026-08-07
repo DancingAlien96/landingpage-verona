@@ -146,8 +146,8 @@ export default function Distribucion() {
           {PLANTAS.map((planta, i) => (
             <Reveal key={planta.num} delay={i * 150}>
               <div className="flex h-full flex-col border border-ink-200/50 bg-white p-6 md:p-8">
-                <div className="flex items-start justify-between">
-                  <div className="flex items-center gap-4">
+                <div className="flex flex-wrap items-start justify-between gap-3">
+                  <div className="flex min-w-0 items-center gap-4">
                     <span className="font-serif text-5xl text-gold-300">
                       {planta.num}
                     </span>
@@ -160,7 +160,7 @@ export default function Distribucion() {
                       </span>
                     </div>
                   </div>
-                  <span className="border border-gold-300 px-3 py-1.5 text-[10px] font-semibold uppercase tracking-[0.2em] text-gold-600">
+                  <span className="shrink-0 whitespace-nowrap border border-gold-300 px-3 py-1.5 text-[10px] font-semibold uppercase tracking-[0.2em] text-gold-600">
                     Vista 3D
                   </span>
                 </div>
