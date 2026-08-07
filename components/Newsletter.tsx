@@ -2,15 +2,39 @@
 
 import { useState, type FormEvent } from "react";
 import { Reveal } from "./Reveal";
+import { FORMSPREE_ENDPOINT } from "./site";
 
 export default function Newsletter() {
   const [email, setEmail] = useState("");
-  const [sent, setSent] = useState(false);
+  const [status, setStatus] = useState<
+    "idle" | "sending" | "success" | "error"
+  >("idle");
 
-  const onSubmit = (e: FormEvent) => {
+  const onSubmit = async (e: FormEvent) => {
     e.preventDefault();
     if (!email) return;
-    setSent(true);
+    if (!FORMSPREE_ENDPOINT) {
+      setStatus("success");
+      return;
+    }
+    setStatus("sending");
+    try {
+      const res = await fetch(FORMSPREE_ENDPOINT, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Accept: "application/json",
+        },
+        body: JSON.stringify({
+          tipo: "Newsletter",
+          correo: email,
+          _subject: `Nueva suscripción al newsletter: ${email}`,
+        }),
+      });
+      setStatus(res.ok ? "success" : "error");
+    } catch {
+      setStatus("error");
+    }
   };
 
   return (
@@ -23,30 +47,38 @@ export default function Newsletter() {
           Conoce antes que nadie las promociones, avances del proyecto y fechas
           de entrega.
         </p>
-        {sent ? (
+        {status === "success" ? (
           <p className="mt-8 text-gold-300">
             ¡Gracias! Te mantendremos informado.
           </p>
         ) : (
-          <form
-            onSubmit={onSubmit}
-            className="mx-auto mt-8 flex max-w-md flex-col gap-3 sm:flex-row"
-          >
-            <input
-              type="email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              placeholder="tu@correo.com"
-              required
-              className="flex-1 border border-white/25 bg-white/10 px-5 py-4 text-white outline-none transition-colors placeholder:text-white/40 focus:border-gold-400"
-            />
-            <button
-              type="submit"
-              className="bg-gold-500 px-8 py-4 text-xs font-semibold uppercase tracking-[0.2em] text-white transition-colors hover:bg-gold-600 cursor-pointer"
+          <>
+            <form
+              onSubmit={onSubmit}
+              className="mx-auto mt-8 flex max-w-md flex-col gap-3 sm:flex-row"
             >
-              Suscribir
-            </button>
-          </form>
+              <input
+                type="email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                placeholder="tu@correo.com"
+                required
+                className="flex-1 border border-white/25 bg-white/10 px-5 py-4 text-white outline-none transition-colors placeholder:text-white/40 focus:border-gold-400"
+              />
+              <button
+                type="submit"
+                disabled={status === "sending"}
+                className="bg-gold-500 px-8 py-4 text-xs font-semibold uppercase tracking-[0.2em] text-white transition-colors hover:bg-gold-600 disabled:cursor-wait disabled:opacity-60 cursor-pointer"
+              >
+                {status === "sending" ? "Enviando…" : "Suscribir"}
+              </button>
+            </form>
+            {status === "error" && (
+              <p className="mt-4 text-sm text-red-400">
+                No se pudo completar la suscripción. Intenta de nuevo.
+              </p>
+            )}
+          </>
         )}
       </Reveal>
     </section>

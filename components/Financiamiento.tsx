@@ -3,7 +3,7 @@
 import { useState, type FormEvent } from "react";
 import { CountUp, Reveal } from "./Reveal";
 import { InfoIcon } from "./icons";
-import { WHATSAPP_NUMBER } from "./site";
+import { FORMSPREE_ENDPOINT, WHATSAPP_NUMBER } from "./site";
 
 const PLAZOS = [
   { years: 5, cuotas: 60, defaultCuota: "13,519.62" },
@@ -34,11 +34,13 @@ export default function Financiamiento() {
     telefono: "",
     plazo: "",
   });
+  const [status, setStatus] = useState<
+    "idle" | "sending" | "success" | "error"
+  >("idle");
 
   const maxCuota = Math.max(...cuotas.map(parseCuota), 1);
 
-  const onSubmit = (e: FormEvent) => {
-    e.preventDefault();
+  const openWhatsApp = () => {
     const msg = [
       "Hola, quiero una cotización personalizada del proyecto residencial.",
       form.nombre && `Nombre: ${form.nombre}`,
@@ -52,6 +54,35 @@ export default function Financiamiento() {
       `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(msg)}`,
       "_blank"
     );
+  };
+
+  const onSubmit = async (e: FormEvent) => {
+    e.preventDefault();
+    if (!FORMSPREE_ENDPOINT) {
+      openWhatsApp();
+      return;
+    }
+    setStatus("sending");
+    try {
+      const res = await fetch(FORMSPREE_ENDPOINT, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Accept: "application/json",
+        },
+        body: JSON.stringify({
+          tipo: "Cotización",
+          nombre: form.nombre,
+          correo: form.correo,
+          telefono: form.telefono,
+          plazo: form.plazo,
+          _subject: `Nueva cotización: ${form.nombre} (${form.plazo})`,
+        }),
+      });
+      setStatus(res.ok ? "success" : "error");
+    } catch {
+      setStatus("error");
+    }
   };
 
   const inputCls =
@@ -241,6 +272,12 @@ export default function Financiamiento() {
               Sin compromiso. Te enviamos el desglose completo adaptado al
               plazo que prefieras.
             </p>
+            {status === "success" ? (
+              <p className="mt-10 text-center text-lg text-gold-600">
+                ¡Gracias, {form.nombre}! Recibimos tu solicitud y te
+                contactaremos muy pronto con tu cotización personalizada.
+              </p>
+            ) : (
             <form onSubmit={onSubmit} className="mt-8 space-y-6">
               <div>
                 <label className="text-[11px] font-semibold uppercase tracking-[0.2em] text-ink-600">
@@ -306,11 +343,26 @@ export default function Financiamiento() {
               </div>
               <button
                 type="submit"
-                className="w-full bg-gold-500 px-8 py-4 text-xs font-semibold uppercase tracking-[0.2em] text-white transition-colors hover:bg-gold-600 cursor-pointer"
+                disabled={status === "sending"}
+                className="w-full bg-gold-500 px-8 py-4 text-xs font-semibold uppercase tracking-[0.2em] text-white transition-colors hover:bg-gold-600 disabled:cursor-wait disabled:opacity-60 cursor-pointer"
               >
-                Quiero mi cotización
+                {status === "sending" ? "Enviando…" : "Quiero mi cotización"}
               </button>
+              {status === "error" && (
+                <p className="text-center text-sm text-red-600">
+                  No se pudo enviar la solicitud. Intenta de nuevo o{" "}
+                  <button
+                    type="button"
+                    onClick={openWhatsApp}
+                    className="underline cursor-pointer"
+                  >
+                    escríbenos por WhatsApp
+                  </button>
+                  .
+                </p>
+              )}
             </form>
+            )}
           </div>
         </Reveal>
       </div>
